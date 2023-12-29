@@ -8,6 +8,28 @@
 </head>
 <body <?php body_class(); ?>>
     <header>
-        <h1><a href="<?php echo home_url(); ?>"><?php bloginfo('name'); ?></a></h1>
-        <p><?php bloginfo('description'); ?></p>
+<!--          logo -->
+		
+		<div class="header-logo">
+        <?php
+        if (has_custom_logo()) {
+            the_custom_logo();
+        } else {
+            echo '<h1><a href="' . home_url() . '">' . get_bloginfo('name') . '</a></h1>';
+            echo '<p>' . get_bloginfo('description') . '</p>';
+        }
+        ?>
+    </div>
+		
+<!-- 		navigation -->
+        <nav>
+            <?php
+            wp_nav_menu(array(
+                'theme_location' => 'primary',
+                'container'      => '',
+                'menu_class'     => 'header-menu',
+                // Additional parameters can be specified here
+            ));
+            ?>
+        </nav>
     </header>

@@ -1,0 +1,189 @@
+/*
+Theme Name: Sparks  Theme
+Description: A custom theme for Sparks of a Nation
+Version: 1.0
+Author: Shalom Tzvi Shore
+*/
+
+body {
+			background: #efefef;
+	font-family: 'Open Sans', sans-serif;
+	margin: 0px;
+		}
+
+
+.custom-logo {
+  max-width: 100px;
+  height: 100%;
+	margin: 0 20px; 
+}
+
+
+/* styling menu */
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px; /* Adjust as needed */
+	background: #1B2944;
+	margin-bottom: 40px;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Ensures the inner div takes the full width of the header */
+}
+
+.header-menu {
+    list-style: none;
+    display: flex;
+    align-items: center; /* Aligns menu items vertically */
+    justify-content: center; /* Centers menu items horizontally */
+    padding: 0;
+    margin: 0;
+}
+
+.header-menu li {
+    margin-right: 20px; /* Spacing between menu items */
+	cursor: pointer;
+}
+
+.header-menu li:last-child {
+    margin-right: 0; /* Removes margin from the last item */
+}
+
+.header-menu a {
+		color: white;
+	text-decoration: none;
+}
+
+
+footer {
+	padding: 10px 20px; 
+	background: #0D1320;
+	color: white;
+}
+
+
+/* styling the homepage (shortcode) */
+
+
+/* styling sidebar */
+#primary {
+    display: flex;
+    justify-content: space-between;
+	margin: auto;
+}
+
+#main {
+    flex: 2; /* Takes up the remaining space */
+}
+
+aside#secondary {
+    flex: 1; /* Sidebar takes 1/3 of the space */
+    max-width: 33%;
+	margin: 10px;
+}
+
+.content-area {
+	max-width: 1280px;
+}
+
+/* styliing cards */
+		
+        .custom-loop-container {
+
+			max-width: 700px;
+  			margin: 0 auto;
+        }
+
+        .custom-loop-post {
+            flex: 1 1 calc(33.3333% - 20px); 
+            box-sizing: border-box;
+        }		
+
+        .entry-content {
+            margin-bottom: 20px;
+            padding: 15px;         
+			display: flex;
+  			flex-direction: row-reverse;
+			background: white;
+  			border-radius: 5px;
+        } 
+
+        .entry-title {
+            font-size: 24px;
+            margin: 30px;
+		}
+				
+		.entry-title a {
+			text-decoration: none;
+			color: black;
+        }
+
+        .wp-post-image {           
+            margin-bottom: 10px;
+			max-width: 350px;
+			height: 100%;
+        }
+
+        .post-content {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+
+.video-featured-image .wp-video {
+    aspect-ratio: 0.78;
+    background: #141F32;
+    max-width: 350px;
+}
+
+/* making the videos float vertically center in their colored background */
+.wp-video {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* This should be the height of the blue column or the container */
+}
+
+.pagination-container {
+    text-align: center;
+	font-size: 20px;
+	margin-bottom: 20px;
+}
+
+.page-numbers {
+  text-decoration: none;
+  padding: 6px;
+}
+
+/* styling cards on mobile */
+
+@media (max-width: 700px) {
+	        
+	    #primary {
+        flex-direction: column;
+    }
+
+    #main, aside#secondary {
+        flex: none;
+        max-width: 100%;
+    }
+	
+	.entry-content {
+            			flex-direction: column-reverse;
+				
+  			        } 
+	
+	.post {
+		margin: 10px;
+	}
+	
+	.video-featured-image .wp-video {
+	aspect-ratio: 0;
+}
+ 
+}
