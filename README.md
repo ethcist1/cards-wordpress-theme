@@ -43,3 +43,15 @@ Sparks Theme includes an automated update mechanism, enabling easy updates acros
 - **JSON Structure**: The file contains `version` and `download_url` fields. When a new version is released, update this file with the new version number and the URL to the updated theme's .zip file.
 
 ### Example JSON:
+
+{
+    "version": "1.1.0",
+    "download_url": "http://sparksofanation.com/downloads/Sparks_Theme_v1.1.0.zip"
+}
+
+### Deployment Across Sites:
+- Theme can be deployed across multiple sites, each can check and update independently.
+- Ensure JSON file URL in functions.php is correct, and .zip file is updated with new theme versions.
+
+### Important Notes:
+- Update mechanism relies on a publicly accessible .zip file. 
