@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Cards Archive
+ * Template Name: Cards Archive - depriciatd
  */
 
 get_header();
@@ -37,7 +37,14 @@ $custom_query = new WP_Query(array(
                             $post_content = get_the_content();
                             $has_video = (has_shortcode($post_content, 'video') || stripos($post_content, '.mp4') !== false);
 
-                            echo '<h2 class="entry-title"><a  href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a></h2>';
+							// Display the post date
+                            echo '<div class="post-text"><div class="post-date">' . get_the_date() . '</div>';
+							
+                            echo '<h2 class="entry-title"><a  href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a></h2></div>';
+							
+							 
+                            
+                                                  
 							
                             if ($has_video) {
                                 $first_video_shortcode = get_first_video_shortcode($post_content);

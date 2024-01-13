@@ -113,10 +113,18 @@ aside#secondary {
   			border-radius: 5px;
         } 
 
-        .entry-title {
+.post-text {
+	            margin-left: 30px;
+}
+        
+.entry-title {
             font-size: 24px;
-            margin: 30px;
 		}
+
+.post-date {
+	text-transform: uppercase;
+	font-size: 14px;
+}
 				
 		.entry-title a {
 			text-decoration: none;
@@ -134,11 +142,16 @@ aside#secondary {
             line-height: 1.6;
         }
 
+.video-featured-image {
+/* 	fixing stretched image */
+		height: 100%;
+}
 
 .video-featured-image .wp-video {
     aspect-ratio: 0.78;
     background: #141F32;
     max-width: 350px;
+
 }
 
 /* making the videos float vertically center in their colored background */
@@ -186,4 +199,40 @@ aside#secondary {
 	aspect-ratio: 0;
 }
  
+}
+
+
+/* styling individual blog posts (single.php) */
+
+article {
+  max-width: 700px;
+  background: white;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+/* styling popular posts widget */
+.wpp-list {
+  padding: 0px;
+}
+
+.wpp-post {
+	max-width: 380px;
+
+	margin: 20px 0px;
+	background: #1B2944;
+  border-radius: 10px;
+  padding: 10px;
+
+}
+
+.wpp-thumbnail {
+  width: 100%;
+  height: 100%;
+}
+
+.wpp-post-title {
+  text-decoration: none;
+  color: white;
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Archive Template
+ * Archive Template (Deprciated)
  *
  * @package Sparks Theme
  */

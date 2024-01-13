@@ -1,7 +1,7 @@
 <?php
-/*
-Template Name: Single Post Template
-*/
+/**
+ * The template for displaying all single posts
+ */
 
 get_header(); ?>
 
@@ -9,45 +9,38 @@ get_header(); ?>
     <main id="main" class="site-main">
 
         <?php
-        // Custom query to retrieve the single post
-        $post_id = get_the_ID();
-        $custom_query = new WP_Query(array(
-            'post_type' => 'post',  // Specify the post type
-            'p' => $post_id,  // Display the specific post
-        ));
+        while (have_posts()) : the_post();
+            // Check for video in the content
+            $post_content = get_the_content();
+            $has_video = (has_shortcode($post_content, 'video') || stripos($post_content, '.mp4') !== false);
+            ?>
+            <article id="post-<?php the_ID(); ?>" <?php post_class('custom-loop-post'); ?>>
 
-        if ($custom_query->have_posts()) :
-            echo '<div class="custom-loop-container">';
-
-            while ($custom_query->have_posts()) : $custom_query->the_post();
+                <?php
+                // Show the featured image only if there's no video
+                if (!$has_video && has_post_thumbnail()) {
+                    echo '<div class="image-featured-image">' . get_the_post_thumbnail(null, 'large') . '</div>';
+                }
                 ?>
-                <article id="post-<?php the_ID(); ?>" <?php post_class('custom-loop-post'); ?>>
-                    <div class="entry-content">
-                        <?php
-                        // Display the featured image if available
-                        if (has_post_thumbnail()) {
-                            echo '<div class="featured-image">' . get_the_post_thumbnail() . '</div>';
-                        }
-                        ?>
 
-                        <h2 class="entry-title"><?php the_title(); ?></h2>
-                        <div class="post-content"><?php the_content(); ?></div>
-                    </div>
-                </article>
-            <?php
-            endwhile;
+                <div class="post-content">
+                    <?php the_content(); ?>
+                </div>
 
-            echo '</div>'; // Close the custom-loop-container
+                <div class="post-footer">
+                    <h2 class="entry-title"><?php the_title(); ?></h2>
+                    <div class="post-date"><?php echo get_the_date(); ?></div>
+                </div>
 
-            wp_reset_postdata(); // Reset the post data to the main query
-        else :
-            // If no posts are found
-            echo 'No posts found';
+            </article><!-- #post-<?php the_ID(); ?> -->
 
-        endif;
+        <?php endwhile; // End of the loop.
         ?>
 
     </main><!-- #main -->
+    
+    <?php get_sidebar(); ?>
 </div><!-- #primary -->
 
 <?php get_footer(); ?>
+
