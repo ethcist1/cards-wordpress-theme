@@ -1,0 +1,35 @@
+/* Hide all slides initially */
+.slide {
+    display: none;
+}
+
+/* Show only the first slide */
+.slider .slide:first-child {
+    display: block;
+}
+
+/* Style navigation arrows */
+.slider {
+    position: relative;
+}
+
+.slider-arrow {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: none;
+    padding: 5px;
+    font-size: 20px;
+    z-index: 2; /* To ensure it's above other content */
+	border-radius: 90px;
+}
+
+.prev-arrow {
+    left: 10px;
+}
+
+.next-arrow {
+    right: 10px;
+}
