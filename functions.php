@@ -255,8 +255,8 @@ function sparks_check_theme_update() {
         return $cached_data;
     }
 
-    // HTTPS URL (not HTTP)
-    $json_url = 'https://sparksofanation.com/downloads/sparks-update.json';
+    // GitHub raw URL for update JSON
+    $json_url = 'https://raw.githubusercontent.com/ethcist1/cards-wordpress-theme/main/sparks-update.json';
 
     $response = wp_remote_get($json_url, array(
         'timeout' => 10,

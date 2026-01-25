@@ -1,0 +1,8 @@
+{
+  "version": "1.2.0",
+  "download_url": "https://github.com/ethcist1/cards-wordpress-theme/archive/refs/heads/main.zip",
+  "changelog": "Updated theme version and configured GitHub as update source",
+  "requires": "5.0",
+  "tested": "6.4",
+  "requires_php": "7.4"
+}
