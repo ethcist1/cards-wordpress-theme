@@ -135,3 +135,63 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(video);
     });
 });
+
+// Add play button overlays to videos
+document.addEventListener('DOMContentLoaded', function() {
+    const videos = document.querySelectorAll('.slider video');
+
+    videos.forEach(function(video) {
+        // Skip if already wrapped
+        if (video.parentElement.classList.contains('video-wrapper')) {
+            return;
+        }
+
+        // Create wrapper
+        const wrapper = document.createElement('div');
+        wrapper.className = 'video-wrapper';
+
+        // Create play button
+        const playButton = document.createElement('div');
+        playButton.className = 'video-play-button';
+        playButton.setAttribute('aria-label', 'Play video');
+        playButton.setAttribute('role', 'button');
+        playButton.setAttribute('tabindex', '0');
+
+        // Wrap video
+        video.parentNode.insertBefore(wrapper, video);
+        wrapper.appendChild(video);
+        wrapper.appendChild(playButton);
+
+        // Play button click handler
+        function playVideo() {
+            video.play();
+            playButton.classList.add('hidden');
+        }
+
+        playButton.addEventListener('click', playVideo);
+
+        // Keyboard accessibility
+        playButton.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                playVideo();
+            }
+        });
+
+        // Show play button when video is paused or ended
+        video.addEventListener('pause', function() {
+            if (!video.ended) {
+                playButton.classList.remove('hidden');
+            }
+        });
+
+        video.addEventListener('ended', function() {
+            playButton.classList.remove('hidden');
+        });
+
+        // Hide play button when video starts playing
+        video.addEventListener('play', function() {
+            playButton.classList.add('hidden');
+        });
+    });
+});

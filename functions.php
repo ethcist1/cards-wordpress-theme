@@ -329,6 +329,76 @@ function sparks_theme_update_notice() {
 add_action('load-themes.php', 'sparks_check_theme_update');
 
 /**
+ * Push theme update info into WordPress update system
+ */
+function sparks_push_theme_update($transient) {
+    if (empty($transient->checked)) {
+        return $transient;
+    }
+
+    $theme_data = wp_get_theme();
+    $theme_slug = $theme_data->get_stylesheet();
+    $current_version = $theme_data->get('Version');
+
+    // Get update info from our JSON
+    $update_data = sparks_check_theme_update();
+
+    if (!$update_data || !isset($update_data['version'])) {
+        return $transient;
+    }
+
+    // If there's a new version available
+    if (version_compare($current_version, $update_data['version'], '<')) {
+        $transient->response[$theme_slug] = array(
+            'theme'       => $theme_slug,
+            'new_version' => $update_data['version'],
+            'url'         => isset($update_data['url']) ? $update_data['url'] : 'https://github.com/ethcist1/cards-wordpress-theme',
+            'package'     => $update_data['download_url'],
+            'requires'    => isset($update_data['requires']) ? $update_data['requires'] : '5.0',
+            'requires_php' => isset($update_data['requires_php']) ? $update_data['requires_php'] : '7.4',
+        );
+    }
+
+    return $transient;
+}
+add_filter('pre_set_site_transient_update_themes', 'sparks_push_theme_update');
+
+/**
+ * Fix GitHub zip folder name during update
+ * GitHub zips extract to "repo-name-branch" but WordPress expects the theme folder name
+ */
+function sparks_fix_github_zip_folder($source, $remote_source, $upgrader, $hook_extra) {
+    global $wp_filesystem;
+
+    // Only process theme updates
+    if (!isset($hook_extra['theme'])) {
+        return $source;
+    }
+
+    $theme = wp_get_theme();
+    $expected_folder = $theme->get_stylesheet();
+
+    // Check if this is our theme
+    if ($hook_extra['theme'] !== $expected_folder) {
+        return $source;
+    }
+
+    // GitHub extracts to something like "cards-wordpress-theme-main"
+    // We need to rename it to "Sparks Theme"
+    $corrected_source = trailingslashit($remote_source) . $expected_folder . '/';
+
+    if ($source !== $corrected_source) {
+        // Rename the folder
+        if ($wp_filesystem->move($source, $corrected_source, true)) {
+            return $corrected_source;
+        }
+    }
+
+    return $source;
+}
+add_filter('upgrader_source_selection', 'sparks_fix_github_zip_folder', 10, 4);
+
+/**
  * Get asset version based on file modification time
  * Falls back to theme version if file doesn't exist
  *
