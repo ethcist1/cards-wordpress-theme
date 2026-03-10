@@ -1,7 +1,7 @@
 /*
 Theme Name: Sparks Theme
 Description: A custom theme for Sparks of a Nation
-Version: 1.2.1
+Version: 1.2.3
 Author: Shalom Tzvi Shore
 Theme URI: https://github.com/ethcist1/cards-wordpress-theme
 GitHub Theme URI: https://github.com/ethcist1/cards-wordpress-theme
@@ -9,180 +9,174 @@ Text Domain: sparks-theme
 */
 
 body {
-			background: #efefef;
-	font-family: 'Open Sans', sans-serif;
-	margin: 0px;
-		}
-
+  background: #efefef;
+  font-family: "Open Sans", sans-serif;
+  margin: 0px;
+}
 
 .custom-logo {
   max-width: 100px;
   height: 100%;
-	margin: 0 20px; 
+  margin: 0 20px;
 }
-
 
 /* styling menu */
 header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px; /* Adjust as needed */
-	background: #1B2944;
-	margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px; /* Adjust as needed */
+  background: #1b2944;
+  margin-bottom: 40px;
 }
 
 .header-inner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%; /* Ensures the inner div takes the full width of the header */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Ensures the inner div takes the full width of the header */
 }
 
 .header-menu {
-    list-style: none;
-    display: flex;
-    align-items: center; /* Aligns menu items vertically */
-    justify-content: center; /* Centers menu items horizontally */
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  display: flex;
+  align-items: center; /* Aligns menu items vertically */
+  justify-content: center; /* Centers menu items horizontally */
+  padding: 0;
+  margin: 0;
 }
 
 .header-menu li {
-    margin-right: 20px; /* Spacing between menu items */
-	cursor: pointer;
+  margin-right: 20px; /* Spacing between menu items */
+  cursor: pointer;
 }
 
 .header-menu li:last-child {
-    margin-right: 0; /* Removes margin from the last item */
+  margin-right: 0; /* Removes margin from the last item */
 }
 
 .header-menu a {
-		color: white;
-	text-decoration: none;
+  color: white;
+  text-decoration: none;
 }
-
 
 footer {
-	padding: 10px 20px; 
-	background: #0D1320;
-	color: white;
+  padding: 10px 20px;
+  background: #0d1320;
+  color: white;
 }
-
 
 /* styling page (not posts) */
 
 .page-content {
   max-width: 800px;
   margin: 0 auto;
-    margin-bottom: 0px;
+  margin-bottom: 0px;
   margin-bottom: 80px;
 }
 
-
 /* styling the homepage (shortcode) */
-
 
 /* styling sidebar */
 #primary {
-    display: flex;
-    justify-content: space-between;
-	margin: auto;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
 }
 
 #main {
-    flex: 2; /* Takes up the remaining space */
+  flex: 2; /* Takes up the remaining space */
 }
 
 aside#secondary {
-    flex: 1; /* Sidebar takes 1/3 of the space */
-    max-width: 33%;
-	margin: 10px;
+  flex: 1; /* Sidebar takes 1/3 of the space */
+  max-width: 33%;
+  margin: 10px;
 }
 
 .content-area {
-	max-width: 1280px;
+  max-width: 1280px;
 }
 
 /* styliing cards */
-		
-        .custom-loop-container {
 
-			max-width: 700px;
-  			margin: 0 auto;
-        }
+.custom-loop-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
 
-        .custom-loop-post {
-            flex: 1 1 calc(33.3333% - 20px); 
-            box-sizing: border-box;
-        }		
+.custom-loop-post {
+  flex: 1 1 calc(33.3333% - 20px);
+  box-sizing: border-box;
+}
 
-        .entry-content {
-            margin-bottom: 20px;
-            padding: 15px;
-			display: flex;
-  			flex-direction: row-reverse;
-			background: white;
-  			border-radius: 5px;
-        }
+.entry-content {
+  margin-bottom: 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: row-reverse;
+  background: white;
+  border-radius: 5px;
+}
 
 /* Post text section (title + date) - takes 33% of layout */
 .post-text {
-	flex: 1;
-	margin-left: 30px;
+  flex: 1;
+  margin-left: 30px;
 }
 
 /* Slider/media section (videos/images) - takes 66% of layout */
 .slider {
-	flex: 2;
+  flex: 2;
 }
-        
+
 .entry-title {
-            font-size: 24px;
-		}
+  font-size: 24px;
+}
 
 .post-date {
-	text-transform: uppercase;
-	font-size: 14px;
+  text-transform: uppercase;
+  font-size: 14px;
 }
-				
-		.entry-title a {
-			text-decoration: none;
-			color: black;
-        }
 
-        .wp-post-image {           
-            margin-bottom: 10px;
-			max-width: 350px;
-			height: 100%;
-        }
+.entry-title a {
+  text-decoration: none;
+  color: black;
+}
 
-        .post-content {
-            font-size: 16px;
-            line-height: 1.6;
-        }
+/* Homepage/loop post images - limit to 350px */
+.entry-content .wp-post-image {
+  margin-bottom: 10px;
+  max-width: 350px;
+  height: 100%;
+}
+
+.post-content {
+  font-size: 16px;
+  line-height: 1.6;
+}
 
 .video-featured-image {
-	height: 100%;
+  height: 100%;
 }
 
 .video-featured-image .wp-video {
-    background: #141F32;
-    width: 100%;
+  background: #141f32;
+  width: 100%;
 }
 
 /* making the videos float vertically center in their colored background */
 .wp-video {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 100%; /* This should be the height of the blue column or the container */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100%; /* This should be the height of the blue column or the container */
 }
 
 .pagination-container {
-    text-align: center;
-	font-size: 20px;
-	margin-bottom: 20px;
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 20px;
 }
 
 .page-numbers {
@@ -190,36 +184,31 @@ aside#secondary {
   padding: 6px;
 }
 
-
-
 /* styling cards on mobile */
 
 @media (max-width: 700px) {
-	        
-	    #primary {
-        flex-direction: column;
-    }
+  #primary {
+    flex-direction: column;
+  }
 
-    #main, aside#secondary {
-        flex: none;
-        max-width: 100%;
-    }
-	
-	.entry-content {
-            			flex-direction: column-reverse;
-				
-  			        } 
-	
-	.post {
-		margin: 10px;
-	}
-	
-	.video-featured-image .wp-video {
-	aspect-ratio: 0;
-}
- 
-}
+  #main,
+  aside#secondary {
+    flex: none;
+    max-width: 100%;
+  }
 
+  .entry-content {
+    flex-direction: column-reverse;
+  }
+
+  .post {
+    margin: 10px;
+  }
+
+  .video-featured-image .wp-video {
+    aspect-ratio: 0;
+  }
+}
 
 /* styling individual blog posts (single.php) */
 
@@ -231,19 +220,41 @@ article {
   border-radius: 5px;
 }
 
+/* Post header (title and date) at the top of single posts */
+.post-header {
+  margin-bottom: 20px;
+}
+
+.post-header .entry-title {
+  margin: 0 0 10px 0;
+}
+
+.post-header .post-date {
+  margin-bottom: 20px;
+}
+
+/* Full-width featured image on single posts */
+/* Full-width featured image on single posts */
+.full-width-featured-image,
+.wp-post-image {
+  max-width: 100% !important;
+  height: auto;
+  display: block;
+  margin-bottom: 20px;
+}
+
 /* styling popular posts widget */
 .wpp-list {
   padding: 0px;
 }
 
 .wpp-post {
-	max-width: 380px;
+  max-width: 380px;
 
-	margin: 20px 0px;
-	background: #1B2944;
+  margin: 20px 0px;
+  background: #1b2944;
   border-radius: 10px;
   padding: 10px;
-
 }
 
 .wpp-thumbnail {
@@ -256,12 +267,10 @@ article {
   color: white;
 }
 
-
 /* styliing share */
 .whatsapp-share {
   max-width: 30px;
 }
-
 
 /* ========================================
    ACCESSIBILITY STYLES
@@ -269,36 +278,36 @@ article {
 
 /* Screen Reader Text & Skip Link */
 .screen-reader-text {
-	border: 0;
-	clip: rect(1px, 1px, 1px, 1px);
-	clip-path: inset(50%);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px;
-	word-wrap: normal !important;
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  word-wrap: normal !important;
 }
 
 .screen-reader-text:focus {
-	background-color: #f1f1f1;
-	border-radius: 3px;
-	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-	clip: auto !important;
-	clip-path: none;
-	color: #21759b;
-	display: block;
-	font-size: 14px;
-	font-weight: bold;
-	height: auto;
-	left: 5px;
-	line-height: normal;
-	padding: 15px 23px 14px;
-	text-decoration: none;
-	top: 5px;
-	width: auto;
-	z-index: 100000;
+  background-color: #f1f1f1;
+  border-radius: 3px;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+  clip: auto !important;
+  clip-path: none;
+  color: #21759b;
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  height: auto;
+  left: 5px;
+  line-height: normal;
+  padding: 15px 23px 14px;
+  text-decoration: none;
+  top: 5px;
+  width: auto;
+  z-index: 100000;
 }
 
 /* Focus Indicators for Keyboard Navigation */
@@ -307,23 +316,23 @@ button:focus,
 input:focus,
 textarea:focus,
 select:focus {
-	outline: 2px solid #21759b;
-	outline-offset: 2px;
+  outline: 2px solid #21759b;
+  outline-offset: 2px;
 }
 
 .slider-arrow:focus {
-	outline: 2px solid #21759b;
-	outline-offset: 2px;
-	box-shadow: 0 0 0 3px rgba(33, 117, 155, 0.25);
+  outline: 2px solid #21759b;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(33, 117, 155, 0.25);
 }
 
 .slider:focus {
-	outline: 2px solid #21759b;
-	outline-offset: 2px;
+  outline: 2px solid #21759b;
+  outline-offset: 2px;
 }
 
 .slider:focus:not(:focus-visible) {
-	outline: none;
+  outline: none;
 }
 
 /* Color Palette - WCAG AAA Compliant

@@ -251,7 +251,7 @@ function sparks_check_theme_update() {
     $transient_key = 'sparks_theme_update_check';
     $cached_data = get_transient($transient_key);
 
-    if (false !== $cached_data) {
+    if (false !== $cached_data && !isset($cached_data['error'])) {
         return $cached_data;
     }
 
@@ -266,14 +266,14 @@ function sparks_check_theme_update() {
     if (is_wp_error($response)) {
         // Log error and set transient to retry in 1 hour
         error_log('Sparks Theme update check failed: ' . $response->get_error_message());
-        set_transient($transient_key, false, HOUR_IN_SECONDS);
+        set_transient($transient_key, array('error' => true), HOUR_IN_SECONDS);
         return false;
     }
 
     $response_code = wp_remote_retrieve_response_code($response);
     if (200 !== $response_code) {
         error_log('Sparks Theme update check returned HTTP ' . $response_code);
-        set_transient($transient_key, false, HOUR_IN_SECONDS);
+        set_transient($transient_key, array('error' => true), HOUR_IN_SECONDS);
         return false;
     }
 
@@ -281,7 +281,7 @@ function sparks_check_theme_update() {
 
     if (!$data || !isset($data['version'])) {
         error_log('Sparks Theme update check returned invalid JSON');
-        set_transient($transient_key, false, HOUR_IN_SECONDS);
+        set_transient($transient_key, array('error' => true), HOUR_IN_SECONDS);
         return false;
     }
 

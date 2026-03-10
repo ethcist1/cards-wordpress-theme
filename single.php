@@ -15,25 +15,24 @@ get_header(); ?>
             ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class('custom-loop-post'); ?>>
 
+                <div class="post-header">
+                    <h2 class="entry-title"><?php the_title(); ?></h2>
+                    <div class="post-date"><?php echo get_the_date(); ?></div>
+                </div>
+
                 <?php
                 // Show the featured image only if there's no video
                 if (!$has_video && has_post_thumbnail()) {
-                    echo '<div class="image-featured-image">';
                     echo get_the_post_thumbnail(null, 'sparks-single-featured', array(
-                        'loading' => 'eager', // Above fold, load immediately
-                        'sizes' => '(max-width: 700px) 100vw, 700px',
+                        'class' => 'full-width-featured-image',
+                        'loading' => 'eager',
+                        'sizes' => '100vw',
                     ));
-                    echo '</div>';
                 }
                 ?>
 
                 <div class="post-content">
                     <?php the_content(); ?>
-                </div>
-
-                <div class="post-footer">
-                    <h2 class="entry-title"><?php the_title(); ?></h2>
-                    <div class="post-date"><?php echo get_the_date(); ?></div>
                 </div>
 
                 <!-- Sharing icon -->
