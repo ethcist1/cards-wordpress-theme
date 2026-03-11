@@ -1,71 +1,60 @@
 <?php
 /**
- * Archive Template (Deprciated)
+ * Blog index template
  *
  * @package Sparks Theme
  */
 
-get_header();
+get_header(); ?>
 
-// Control the number of posts per page
-$posts_per_page = 12; // You can adjust this number as needed
-
-// Custom query to retrieve posts
-$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-$custom_query = new WP_Query(array(
-    'post_type'      => 'post',  // Specify the post type
-    'posts_per_page' => $posts_per_page,
-    'paged'          => $paged,  // For pagination
-));
-
-if ($custom_query->have_posts()) :
-    echo '<div class="custom-loop-container">';
-
-    while ($custom_query->have_posts()) : $custom_query->the_post();
-    ?>
-        <article id="post-<?php the_ID(); ?>" <?php post_class('custom-loop-post'); ?>>
-            <div class="entry-content">
-                <?php
-                // Check if the post content contains video shortcode or .mp4 suffix
-                $post_content = get_the_content();
-                $has_video = (has_shortcode($post_content, 'video') || stripos($post_content, '.mp4') !== false);
-
-                // Always display the article title
-                echo '<h2 class="entry-title">' . get_the_title() . '</h2>';
-
-                // Display the video or the featured image based on condition
-                if ($has_video) {
-                    // Extract the first video shortcode from the content
-                    $first_video_shortcode = get_first_video_shortcode($post_content);
-
-                    if (!empty($first_video_shortcode)) {
-                        // Display the first video
-                        echo '<div class="video-featured-image">' . do_shortcode($first_video_shortcode) . '</div>';
-                    }
-                } elseif (has_post_thumbnail()) {
-                    // Display the featured image
-                    echo '<div class="video-featured-image">' . get_the_post_thumbnail(null, 'large') . '</div>';
-                }
-                ?>
-            </div>
-        </article>
-    <?php
-    endwhile;
-
-    echo '</div>'; // Close the custom-loop-container
-
-    // Pagination
-    the_posts_pagination(array(
-        'prev_text' => __('Previous', 'textdomain'),
-        'next_text' => __('Next', 'textdomain'),
-    ));
-
-    wp_reset_postdata(); // Reset the post data to the main query
-else :
-    // If no posts are found
-    echo 'No posts found';
-
-endif;
-
-get_footer();
+<?php
+$hero_image_id  = get_option('sparks_hero_image');
+$hero_text      = get_option('sparks_hero_text');
+$hero_subtext   = get_option('sparks_hero_subtext');
+$hero_image_url = $hero_image_id ? wp_get_attachment_image_url($hero_image_id, 'full') : '';
 ?>
+
+<?php if ($hero_image_url || $hero_text || $hero_subtext) : ?>
+<section class="hero-section" <?php if ($hero_image_url) : ?>style="background-image: url('<?php echo esc_url($hero_image_url); ?>');"<?php endif; ?>>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <?php if ($hero_text) : ?>
+            <h1 class="hero-text"><?php echo esc_html($hero_text); ?></h1>
+        <?php endif; ?>
+        <?php if ($hero_subtext) : ?>
+            <p class="hero-subtext"><?php echo esc_html($hero_subtext); ?></p>
+        <?php endif; ?>
+    </div>
+</section>
+<?php endif; ?>
+
+<div id="primary" class="content-area">
+    <main id="main" class="site-main">
+        <div class="custom-loop-container">
+            <?php if (have_posts()) : ?>
+                <?php while (have_posts()) : the_post(); ?>
+                    <?php
+                    $post_id = get_the_ID();
+                    include(get_template_directory() . '/elements/post-card.php');
+                    ?>
+                <?php endwhile; ?>
+
+                <div class="pagination-container">
+                    <?php
+                    the_posts_pagination(array(
+                        'prev_text' => __('Previous', 'sparks-theme'),
+                        'next_text' => __('Next', 'sparks-theme'),
+                    ));
+                    ?>
+                </div>
+
+            <?php else : ?>
+                <p><?php esc_html_e('No content found.', 'sparks-theme'); ?></p>
+            <?php endif; ?>
+        </div>
+    </main>
+
+    <?php get_sidebar(); ?>
+</div>
+
+<?php get_footer(); ?>

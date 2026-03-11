@@ -1,7 +1,7 @@
 /*
 Theme Name: Sparks Theme
 Description: A custom theme for Sparks of a Nation
-Version: 1.2.3
+Version: 1.3.0
 Author: Shalom Tzvi Shore
 Theme URI: https://github.com/ethcist1/cards-wordpress-theme
 GitHub Theme URI: https://github.com/ethcist1/cards-wordpress-theme
@@ -112,17 +112,18 @@ aside#secondary {
 
 .entry-content {
   margin-bottom: 20px;
-  padding: 15px;
+  padding: 0;
   display: flex;
   flex-direction: row-reverse;
   background: white;
   border-radius: 5px;
+  overflow: hidden;
 }
 
 /* Post text section (title + date) - takes 33% of layout */
 .post-text {
   flex: 1;
-  margin-left: 30px;
+  padding: 20px;
 }
 
 /* Slider/media section (videos/images) - takes 66% of layout */
@@ -267,9 +268,14 @@ article {
   color: white;
 }
 
-/* styliing share */
-.whatsapp-share {
-  max-width: 30px;
+/* styling share */
+.whatsapp-share-link {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 3;
+  display: flex;
+  line-height: 0;
 }
 
 /* ========================================
@@ -341,3 +347,70 @@ select:focus {
  * Dark Backgrounds: #0D1320 (footer), #141F32 (video background)
  * All color combinations meet WCAG 2.1 AAA standards for accessibility
  */
+
+/* ========================================
+   HERO SECTION & TRANSPARENT HEADER
+   ======================================== */
+
+/* Transparent header — homepage only */
+header.header-transparent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: transparent;
+  margin-bottom: 0;
+}
+
+/* Hero section */
+.hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 480px;
+  background-color: #1b2944;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: white;
+  padding: 80px 24px 40px; /* top padding accounts for the transparent header */
+  max-width: 800px;
+}
+
+.hero-text {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin: 0 0 16px;
+  line-height: 1.15;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subtext {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: 400;
+  margin: 0;
+  opacity: 0.9;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 700px) {
+  .hero-section {
+    min-height: 320px;
+  }
+}

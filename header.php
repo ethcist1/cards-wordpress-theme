@@ -10,9 +10,9 @@
     <a class="skip-link screen-reader-text" href="#main">
         <?php esc_html_e('Skip to content', 'sparks-theme'); ?>
     </a>
-    <header>
+    <header class="<?php echo is_front_page() ? 'header-transparent' : ''; ?>">
 <!--          logo -->
-		
+
 		<div class="header-logo">
         <?php
         if (has_custom_logo()) {
@@ -23,7 +23,7 @@
         }
         ?>
     </div>
-		
+
 <!-- 		navigation -->
         <nav>
             <?php
@@ -31,7 +31,6 @@
                 'theme_location' => 'primary',
                 'container'      => '',
                 'menu_class'     => 'header-menu',
-                // Additional parameters can be specified here
             ));
             ?>
         </nav>

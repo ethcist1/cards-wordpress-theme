@@ -255,16 +255,19 @@ function sparks_check_theme_update() {
         return $cached_data;
     }
 
-    // GitHub raw URL for update JSON
-    $json_url = 'https://raw.githubusercontent.com/ethcist1/cards-wordpress-theme/main/sparks-update.json';
+    // GitHub API URL (bypasses raw.githubusercontent.com CDN cache)
+    $json_url = 'https://api.github.com/repos/ethcist1/cards-wordpress-theme/contents/sparks-update.json';
 
     $response = wp_remote_get($json_url, array(
         'timeout' => 10,
-        'sslverify' => true, // Verify SSL certificate
+        'sslverify' => true,
+        'headers' => array(
+            'Accept' => 'application/vnd.github.v3+json',
+            'User-Agent' => 'Sparks-Theme-Updater',
+        ),
     ));
 
     if (is_wp_error($response)) {
-        // Log error and set transient to retry in 1 hour
         error_log('Sparks Theme update check failed: ' . $response->get_error_message());
         set_transient($transient_key, array('error' => true), HOUR_IN_SECONDS);
         return false;
@@ -277,7 +280,9 @@ function sparks_check_theme_update() {
         return false;
     }
 
-    $data = json_decode(wp_remote_retrieve_body($response), true);
+    // GitHub API returns base64-encoded content
+    $api_data = json_decode(wp_remote_retrieve_body($response), true);
+    $data = isset($api_data['content']) ? json_decode(base64_decode($api_data['content']), true) : null;
 
     if (!$data || !isset($data['version'])) {
         error_log('Sparks Theme update check returned invalid JSON');
@@ -455,3 +460,114 @@ function sparks_autoembed_video_urls($content) {
     return $content;
 }
 add_filter('the_content', 'sparks_autoembed_video_urls', 12);
+
+/**
+ * Theme Settings Page
+ */
+function sparks_add_theme_settings_page() {
+    add_theme_page(
+        __('Theme Settings', 'sparks-theme'),
+        __('Theme Settings', 'sparks-theme'),
+        'manage_options',
+        'sparks-theme-settings',
+        'sparks_theme_settings_page'
+    );
+}
+add_action('admin_menu', 'sparks_add_theme_settings_page');
+
+function sparks_theme_settings_page() {
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+
+    if (isset($_POST['sparks_settings_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['sparks_settings_nonce'])), 'sparks_save_settings')) {
+        update_option('sparks_hero_image',    isset($_POST['sparks_hero_image'])   ? absint($_POST['sparks_hero_image'])                        : '');
+        update_option('sparks_hero_text',     isset($_POST['sparks_hero_text'])    ? sanitize_text_field(wp_unslash($_POST['sparks_hero_text'])) : '');
+        update_option('sparks_hero_subtext',  isset($_POST['sparks_hero_subtext']) ? sanitize_text_field(wp_unslash($_POST['sparks_hero_subtext'])) : '');
+        update_option('sparks_highlight_color', isset($_POST['sparks_highlight_color']) ? sanitize_hex_color(wp_unslash($_POST['sparks_highlight_color'])) : '#1b2944');
+        echo '<div class="updated"><p>' . esc_html__('Settings saved.', 'sparks-theme') . '</p></div>';
+    }
+
+    $hero_image_id     = get_option('sparks_hero_image', '');
+    $hero_text         = get_option('sparks_hero_text', '');
+    $hero_subtext      = get_option('sparks_hero_subtext', '');
+    $highlight_color   = get_option('sparks_highlight_color', '#1b2944');
+    $hero_image_url    = $hero_image_id ? wp_get_attachment_image_url($hero_image_id, 'medium') : '';
+    ?>
+    <div class="wrap">
+        <h1><?php esc_html_e('Theme Settings', 'sparks-theme'); ?></h1>
+        <form method="post">
+            <?php wp_nonce_field('sparks_save_settings', 'sparks_settings_nonce'); ?>
+
+            <table class="form-table">
+                <tr>
+                    <th scope="row"><label><?php esc_html_e('Hero Image', 'sparks-theme'); ?></label></th>
+                    <td>
+                        <input type="hidden" name="sparks_hero_image" id="sparks_hero_image" value="<?php echo esc_attr($hero_image_id); ?>">
+                        <button type="button" class="button" id="sparks-upload-hero"><?php esc_html_e('Select Image', 'sparks-theme'); ?></button>
+                        <button type="button" class="button" id="sparks-remove-hero" style="<?php echo $hero_image_id ? '' : 'display:none;'; ?>"><?php esc_html_e('Remove', 'sparks-theme'); ?></button>
+                        <div id="sparks-hero-preview" style="margin-top:10px;">
+                            <?php if ($hero_image_url) : ?>
+                                <img src="<?php echo esc_url($hero_image_url); ?>" style="max-width:300px;display:block;">
+                            <?php endif; ?>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="sparks_hero_text"><?php esc_html_e('Hero Text', 'sparks-theme'); ?></label></th>
+                    <td><input type="text" name="sparks_hero_text" id="sparks_hero_text" value="<?php echo esc_attr($hero_text); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="sparks_hero_subtext"><?php esc_html_e('Hero Subtext', 'sparks-theme'); ?></label></th>
+                    <td><input type="text" name="sparks_hero_subtext" id="sparks_hero_subtext" value="<?php echo esc_attr($hero_subtext); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="sparks_highlight_color"><?php esc_html_e('Highlight Color', 'sparks-theme'); ?></label></th>
+                    <td><input type="color" name="sparks_highlight_color" id="sparks_highlight_color" value="<?php echo esc_attr($highlight_color); ?>"></td>
+                </tr>
+            </table>
+
+            <?php submit_button(); ?>
+        </form>
+    </div>
+
+    <script>
+    (function($) {
+        var frame;
+        $('#sparks-upload-hero').on('click', function(e) {
+            e.preventDefault();
+            if (frame) { frame.open(); return; }
+            frame = wp.media({ title: '<?php echo esc_js(__('Select Hero Image', 'sparks-theme')); ?>', multiple: false });
+            frame.on('select', function() {
+                var attachment = frame.state().get('selection').first().toJSON();
+                $('#sparks_hero_image').val(attachment.id);
+                $('#sparks-hero-preview').html('<img src="' + attachment.url + '" style="max-width:300px;display:block;">');
+                $('#sparks-remove-hero').show();
+            });
+            frame.open();
+        });
+        $('#sparks-remove-hero').on('click', function() {
+            $('#sparks_hero_image').val('');
+            $('#sparks-hero-preview').html('');
+            $(this).hide();
+        });
+    }(jQuery));
+    </script>
+    <?php
+}
+
+function sparks_settings_enqueue_media($hook) {
+    if ('appearance_page_sparks-theme-settings' === $hook) {
+        wp_enqueue_media();
+    }
+}
+add_action('admin_enqueue_scripts', 'sparks_settings_enqueue_media');
+
+/**
+ * Output highlight color as CSS custom property
+ */
+function sparks_output_highlight_color() {
+    $color = get_option('sparks_highlight_color', '#1b2944');
+    echo '<style>:root { --sparks-highlight: ' . esc_attr($color) . '; }</style>' . "\n";
+}
+add_action('wp_head', 'sparks_output_highlight_color');
