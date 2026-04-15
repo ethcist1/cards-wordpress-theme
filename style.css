@@ -32,7 +32,7 @@ header {
 
 .header-inner {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   max-width: 1280px;
@@ -60,6 +60,8 @@ header {
 .header-menu a {
   color: white;
   text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
 }
 
 footer {
@@ -150,9 +152,9 @@ aside#secondary {
   left: 0;
   right: 0;
   padding: 24px 8px 8px;
-  background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, transparent 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.78) 0%, transparent 100%);
   color: #fff;
-  font-size: 13px;
+  font-size: 20px;
   font-weight: 600;
   line-height: 1.25;
 }
@@ -289,7 +291,7 @@ aside#secondary {
 /* styling individual blog posts (single.php) */
 
 article {
-  max-width: 700px;
+  max-width: 850px;
   background: white;
   margin: 20px;
   padding: 20px;
@@ -448,6 +450,17 @@ header.header-transparent {
   z-index: 100;
   background: transparent;
   margin-bottom: 0;
+}
+
+/* Push transparent header below WP admin bar when logged in */
+.admin-bar header.header-transparent {
+  top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+  .admin-bar header.header-transparent {
+    top: 46px;
+  }
 }
 
 /* Hero section */
