@@ -1,5 +1,5 @@
 {
-  "version": "1.3.0",
+  "version": "1.4.0",
   "download_url": "https://github.com/ethcist1/cards-wordpress-theme/archive/refs/heads/main.zip",
   "changelog": "Homepage hero section with transparent header overlay; theme settings page for hero image, text, subtext, and highlight color",
   "requires": "5.0",

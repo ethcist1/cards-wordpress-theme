@@ -1,3 +1,49 @@
 <aside id="secondary" class="widget-area">
-    <?php dynamic_sidebar('archive-sidebar'); ?>
+
+    <?php if ( is_active_sidebar( 'sidebar-top' ) ) : ?>
+        <div class="sidebar-zone sidebar-top">
+            <?php dynamic_sidebar( 'sidebar-top' ); ?>
+        </div>
+    <?php endif; ?>
+
+    <div class="sidebar-zone sidebar-popular-posts">
+        <h2 class="widget-title"><?php esc_html_e( 'Popular Posts', 'sparks-theme' ); ?></h2>
+
+        <?php
+        $popular_query = new WP_Query( array(
+            'post_type'      => 'post',
+            'post_status'    => 'publish',
+            'posts_per_page' => 8,
+            'orderby'        => 'rand',
+        ) );
+
+        if ( $popular_query->have_posts() ) :
+            while ( $popular_query->have_posts() ) :
+                $popular_query->the_post();
+                $thumb_url = get_the_post_thumbnail_url( get_the_ID(), 'medium' );
+        ?>
+            <a class="popular-post-item" href="<?php the_permalink(); ?>" aria-label="<?php the_title_attribute(); ?>">
+                <?php if ( $thumb_url ) : ?>
+                    <div class="popular-post-image" style="background-image: url('<?php echo esc_url( $thumb_url ); ?>');">
+                        <span class="popular-post-title"><?php the_title(); ?></span>
+                    </div>
+                <?php else : ?>
+                    <div class="popular-post-image popular-post-no-thumb">
+                        <span class="popular-post-title"><?php the_title(); ?></span>
+                    </div>
+                <?php endif; ?>
+            </a>
+        <?php
+            endwhile;
+            wp_reset_postdata();
+        endif;
+        ?>
+    </div>
+
+    <?php if ( is_active_sidebar( 'sidebar-bottom' ) ) : ?>
+        <div class="sidebar-zone sidebar-bottom">
+            <?php dynamic_sidebar( 'sidebar-bottom' ); ?>
+        </div>
+    <?php endif; ?>
+
 </aside>

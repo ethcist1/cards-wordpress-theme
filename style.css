@@ -1,7 +1,7 @@
 /*
 Theme Name: Sparks Theme
 Description: A custom theme for Sparks of a Nation
-Version: 1.3.0
+Version: 1.4.0
 Author: Shalom Tzvi Shore
 Theme URI: https://github.com/ethcist1/cards-wordpress-theme
 GitHub Theme URI: https://github.com/ethcist1/cards-wordpress-theme
@@ -23,7 +23,7 @@ body {
 /* styling menu */
 header {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 60px; /* Adjust as needed */
   background: #1b2944;
@@ -32,7 +32,7 @@ header {
 
 .header-inner {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%; /* Ensures the inner div takes the full width of the header */
 }
@@ -94,6 +94,64 @@ aside#secondary {
   margin: 10px;
 }
 
+/* Sidebar zones */
+.sidebar-zone {
+  margin-bottom: 32px;
+}
+
+/* Popular Posts */
+.sidebar-popular-posts {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.sidebar-popular-posts .widget-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+}
+
+.popular-post-item {
+  display: block;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+.popular-post-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.popular-post-no-thumb {
+  background-color: #1b2944;
+}
+
+.popular-post-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 28px 10px 10px;
+  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.popular-post-item:hover .popular-post-image {
+  opacity: 0.88;
+  transition: opacity 0.2s ease;
+}
+
 .content-area {
   max-width: 1280px;
 }
@@ -111,7 +169,7 @@ aside#secondary {
 }
 
 .entry-content {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 0;
   display: flex;
   flex-direction: row-reverse;
@@ -123,7 +181,9 @@ aside#secondary {
 /* Post text section (title + date) - takes 33% of layout */
 .post-text {
   flex: 1;
-  padding: 20px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Slider/media section (videos/images) - takes 66% of layout */
@@ -270,12 +330,24 @@ article {
 
 /* styling share */
 .whatsapp-share-link {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  z-index: 3;
   display: flex;
   line-height: 0;
+  align-self: flex-end;
+  margin-top: auto;
+  transition: opacity 0.2s ease;
+}
+
+.whatsapp-share-link svg {
+  width: 20px;
+  height: 20px;
+}
+
+.whatsapp-share-link svg path {
+  fill: var(--sparks-highlight, #1b2944);
+}
+
+.whatsapp-share-link:hover {
+  opacity: 0.7;
 }
 
 /* ========================================

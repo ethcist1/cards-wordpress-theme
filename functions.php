@@ -209,18 +209,33 @@ function sparks_custom_image_sizes($sizes) {
 add_filter('image_size_names_choose', 'sparks_custom_image_sizes');
 
 /**
- * Register widget area
+ * Register widget areas
  */
 function sparks_widgets_init() {
-    register_sidebar(array(
-        'name'          => __('Archive Sidebar', 'sparks-theme'),
-        'id'            => 'archive-sidebar',
-        'description'   => __('Widgets in this area will be shown on all posts and archives.', 'sparks-theme'),
+    $shared = array(
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
         'after_widget'  => '</section>',
         'before_title'  => '<h2 class="widget-title">',
         'after_title'   => '</h2>',
-    ));
+    );
+
+    register_sidebar(array_merge($shared, array(
+        'name'        => __('Archive Sidebar', 'sparks-theme'),
+        'id'          => 'archive-sidebar',
+        'description' => __('Legacy sidebar area (all posts and archives).', 'sparks-theme'),
+    )));
+
+    register_sidebar(array_merge($shared, array(
+        'name'        => __('Sidebar Top', 'sparks-theme'),
+        'id'          => 'sidebar-top',
+        'description' => __('Appears at the top of the sidebar on all pages.', 'sparks-theme'),
+    )));
+
+    register_sidebar(array_merge($shared, array(
+        'name'        => __('Sidebar Bottom', 'sparks-theme'),
+        'id'          => 'sidebar-bottom',
+        'description' => __('Appears at the bottom of the sidebar on all pages.', 'sparks-theme'),
+    )));
 }
 add_action('widgets_init', 'sparks_widgets_init');
 
