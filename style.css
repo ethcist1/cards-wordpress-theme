@@ -169,8 +169,7 @@ aside#secondary {
 /* styling cards */
 
 .custom-loop-container {
-  max-width: 850px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .custom-loop-post {
@@ -191,7 +190,7 @@ aside#secondary {
 /* Post text section (title + date) - takes 33% of layout */
 .post-text {
   flex: 1;
-  padding: 8px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
 }
