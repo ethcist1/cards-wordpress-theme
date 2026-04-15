@@ -11,27 +11,25 @@
         <?php esc_html_e('Skip to content', 'sparks-theme'); ?>
     </a>
     <header class="<?php echo is_front_page() ? 'header-transparent' : ''; ?>">
-<!--          logo -->
-
-		<div class="header-logo">
-        <?php
-        if (has_custom_logo()) {
-            the_custom_logo();
-        } else {
-            echo '<h1><a href="' . esc_url(home_url('/')) . '">' . esc_html(get_bloginfo('name')) . '</a></h1>';
-            echo '<p>' . esc_html(get_bloginfo('description')) . '</p>';
-        }
-        ?>
-    </div>
-
-<!-- 		navigation -->
-        <nav>
-            <?php
-            wp_nav_menu(array(
-                'theme_location' => 'primary',
-                'container'      => '',
-                'menu_class'     => 'header-menu',
-            ));
-            ?>
-        </nav>
+        <div class="header-inner">
+            <div class="header-logo">
+                <?php
+                if (has_custom_logo()) {
+                    the_custom_logo();
+                } else {
+                    echo '<h1><a href="' . esc_url(home_url('/')) . '">' . esc_html(get_bloginfo('name')) . '</a></h1>';
+                    echo '<p>' . esc_html(get_bloginfo('description')) . '</p>';
+                }
+                ?>
+            </div>
+            <nav>
+                <?php
+                wp_nav_menu(array(
+                    'theme_location' => 'primary',
+                    'container'      => '',
+                    'menu_class'     => 'header-menu',
+                ));
+                ?>
+            </nav>
+        </div>
     </header>
