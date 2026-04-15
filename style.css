@@ -104,8 +104,9 @@ aside#secondary {
 
 /* Popular Posts */
 .sidebar-popular-posts {
-  background: transparent;
-  padding: 0;
+  background: white;
+  border-radius: 4px;
+  padding: 14px;
 }
 
 .sidebar-popular-posts .widget-title {
