@@ -44,6 +44,10 @@ get_header(); ?>
 
             </article><!-- #post-<?php the_ID(); ?> -->
 
+            <?php if ( comments_open() || get_comments_number() ) : ?>
+                <?php comments_template(); ?>
+            <?php endif; ?>
+
         <?php endwhile; // End of the loop.
         ?>
 

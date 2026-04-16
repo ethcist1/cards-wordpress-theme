@@ -10,11 +10,15 @@
         <h2 class="widget-title"><?php esc_html_e( 'Popular Posts', 'sparks-theme' ); ?></h2>
 
         <?php
+        global $wp_query;
+        $main_posts_per_page = (int) get_option( 'posts_per_page', 10 );
         $popular_query = new WP_Query( array(
             'post_type'      => 'post',
             'post_status'    => 'publish',
             'posts_per_page' => 8,
-            'orderby'        => 'rand',
+            'orderby'        => 'date',
+            'order'          => 'DESC',
+            'offset'         => $main_posts_per_page,
         ) );
 
         if ( $popular_query->have_posts() ) :

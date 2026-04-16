@@ -129,6 +129,14 @@ function sparks_render_post_media($post_id = null, $include_whatsapp = true) {
             'sizes' => '(max-width: 700px) 100vw, 350px',
         ));
         echo '</div>';
+    } else {
+        // Fall back to first image found in post content
+        $post_content = get_post_field('post_content', $post_id);
+        if (preg_match('/<img[^>]+src=["\']([^"\']+)["\'][^>]*>/i', $post_content, $img_match)) {
+            echo '<div class="slide image-featured">';
+            echo '<img src="' . esc_url($img_match[1]) . '" loading="lazy" style="width:100%;height:100%;object-fit:cover;">';
+            echo '</div>';
+        }
     }
 
     echo '</div>';
