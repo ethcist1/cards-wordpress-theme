@@ -31,12 +31,20 @@ $hero_image_url = $hero_image_id ? wp_get_attachment_image_url($hero_image_id, '
 <div id="primary" class="content-area">
     <main id="main" class="site-main">
         <div class="custom-loop-container">
+            <?php
+            $sparks_custom_code = get_option('sparks_custom_code', '');
+            $sparks_loop_count  = 0;
+            ?>
             <?php if (have_posts()) : ?>
                 <?php while (have_posts()) : the_post(); ?>
                     <?php
                     $post_id = get_the_ID();
                     include(get_template_directory() . '/elements/post-card.php');
+                    $sparks_loop_count++;
+                    if ($sparks_loop_count === 3 && $sparks_custom_code) :
                     ?>
+                        <div class="sparks-custom-inject"><?php echo do_shortcode($sparks_custom_code); ?></div>
+                    <?php endif; ?>
                 <?php endwhile; ?>
 
                 <div class="pagination-container">

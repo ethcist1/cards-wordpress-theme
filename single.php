@@ -44,6 +44,11 @@ get_header(); ?>
 
             </article><!-- #post-<?php the_ID(); ?> -->
 
+            <?php $sparks_custom_code = get_option('sparks_custom_code', ''); ?>
+            <?php if ($sparks_custom_code) : ?>
+                <div class="sparks-custom-inject"><?php echo do_shortcode($sparks_custom_code); ?></div>
+            <?php endif; ?>
+
             <?php if ( comments_open() || get_comments_number() ) : ?>
                 <?php comments_template(); ?>
             <?php endif; ?>

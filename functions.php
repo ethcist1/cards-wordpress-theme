@@ -500,6 +500,7 @@ function sparks_theme_settings_page() {
         update_option('sparks_hero_text',     isset($_POST['sparks_hero_text'])    ? sanitize_text_field(wp_unslash($_POST['sparks_hero_text'])) : '');
         update_option('sparks_hero_subtext',  isset($_POST['sparks_hero_subtext']) ? sanitize_text_field(wp_unslash($_POST['sparks_hero_subtext'])) : '');
         update_option('sparks_highlight_color', isset($_POST['sparks_highlight_color']) ? sanitize_hex_color(wp_unslash($_POST['sparks_highlight_color'])) : '#1b2944');
+        update_option('sparks_custom_code',   isset($_POST['sparks_custom_code'])  ? wp_unslash($_POST['sparks_custom_code'])                   : '');
         echo '<div class="updated"><p>' . esc_html__('Settings saved.', 'sparks-theme') . '</p></div>';
     }
 
@@ -507,6 +508,7 @@ function sparks_theme_settings_page() {
     $hero_text         = get_option('sparks_hero_text', '');
     $hero_subtext      = get_option('sparks_hero_subtext', '');
     $highlight_color   = get_option('sparks_highlight_color', '#1b2944');
+    $custom_code       = get_option('sparks_custom_code', '');
     $hero_image_url    = $hero_image_id ? wp_get_attachment_image_url($hero_image_id, 'medium') : '';
     ?>
     <div class="wrap">
@@ -539,6 +541,13 @@ function sparks_theme_settings_page() {
                 <tr>
                     <th scope="row"><label for="sparks_highlight_color"><?php esc_html_e('Highlight Color', 'sparks-theme'); ?></label></th>
                     <td><input type="color" name="sparks_highlight_color" id="sparks_highlight_color" value="<?php echo esc_attr($highlight_color); ?>"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="sparks_custom_code"><?php esc_html_e('Custom Code', 'sparks-theme'); ?></label></th>
+                    <td>
+                        <textarea name="sparks_custom_code" id="sparks_custom_code" rows="8" cols="60" class="large-text code"><?php echo esc_textarea($custom_code); ?></textarea>
+                        <p class="description"><?php esc_html_e('Injected after the 3rd post on the homepage and above comments on single posts. Accepts HTML, shortcodes, and script tags.', 'sparks-theme'); ?></p>
+                    </td>
                 </tr>
             </table>
 
