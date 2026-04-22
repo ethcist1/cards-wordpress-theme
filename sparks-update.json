@@ -1,7 +1,7 @@
 {
-  "version": "1.5.0",
+  "version": "1.5.1",
   "download_url": "https://github.com/ethcist1/cards-wordpress-theme/archive/refs/heads/main.zip",
-  "changelog": "Logo centered, card excerpts, comments, first-image fallback, sidebar latest posts, custom code injection, typography and layout refinements",
+  "changelog": "Mobile hamburger menu: collapsible nav with animated X toggle and click-outside close",
   "requires": "5.0",
   "tested": "6.7",
   "requires_php": "7.4"

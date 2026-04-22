@@ -1,7 +1,7 @@
 /*
 Theme Name: Sparks Theme
 Description: A custom theme for Sparks of a Nation
-Version: 1.5.0
+Version: 1.5.1
 Author: Shalom Tzvi Shore
 Theme URI: https://github.com/ethcist1/cards-wordpress-theme
 GitHub Theme URI: https://github.com/ethcist1/cards-wordpress-theme
@@ -485,6 +485,103 @@ header.header-transparent {
 @media screen and (max-width: 782px) {
   .admin-bar header.header-transparent {
     top: 46px;
+  }
+}
+
+/* Hamburger button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+  z-index: 200;
+}
+
+.hamburger span {
+  display: block;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Animate to X when open */
+.hamburger.is-active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.hamburger.is-active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.is-active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  header {
+    height: auto;
+    min-height: 60px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding-bottom: 0;
+  }
+
+  .header-inner {
+    flex-wrap: wrap;
+    align-items: center;
+    position: relative;
+    padding: 0 16px;
+  }
+
+  /* Keep logo centered on mobile */
+  .header-logo {
+    position: static;
+    transform: none;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Nav collapsed by default */
+  #primary-nav {
+    display: none;
+    width: 100%;
+    background: #1b2944;
+    order: 3;
+  }
+
+  #primary-nav.nav-open {
+    display: block;
+  }
+
+  .header-menu {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 0 12px;
+  }
+
+  .header-menu li {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .header-menu a {
+    display: block;
+    padding: 10px 16px;
+  }
+
+  /* Transparent header on mobile */
+  header.header-transparent #primary-nav {
+    background: rgba(27, 41, 68, 0.95);
   }
 }
 

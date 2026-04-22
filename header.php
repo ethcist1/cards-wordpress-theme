@@ -22,7 +22,12 @@
                 }
                 ?>
             </div>
-            <nav>
+            <button class="hamburger" aria-label="<?php esc_attr_e('Toggle navigation', 'sparks-theme'); ?>" aria-expanded="false" aria-controls="primary-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav id="primary-nav">
                 <?php
                 wp_nav_menu(array(
                     'theme_location' => 'primary',
@@ -33,3 +38,22 @@
             </nav>
         </div>
     </header>
+    <script>
+    (function () {
+        var btn = document.querySelector('.hamburger');
+        var nav = document.getElementById('primary-nav');
+        if (!btn || !nav) return;
+        btn.addEventListener('click', function () {
+            var open = nav.classList.toggle('nav-open');
+            btn.classList.toggle('is-active', open);
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        document.addEventListener('click', function (e) {
+            if (!nav.contains(e.target) && !btn.contains(e.target)) {
+                nav.classList.remove('nav-open');
+                btn.classList.remove('is-active');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+        });
+    })();
+    </script>
