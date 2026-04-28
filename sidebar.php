@@ -25,6 +25,14 @@
             while ( $popular_query->have_posts() ) :
                 $popular_query->the_post();
                 $thumb_url = get_the_post_thumbnail_url( get_the_ID(), 'medium' );
+
+                // Fallback: first image in post content
+                if ( ! $thumb_url ) {
+                    $content = get_post_field( 'post_content', get_the_ID() );
+                    if ( preg_match( '/<img[^>]+src=["\']([^"\']+)["\'][^>]*>/i', $content, $img_match ) ) {
+                        $thumb_url = $img_match[1];
+                    }
+                }
         ?>
             <a class="popular-post-item" href="<?php the_permalink(); ?>" aria-label="<?php the_title_attribute(); ?>">
                 <?php if ( $thumb_url ) : ?>

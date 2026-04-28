@@ -1,7 +1,7 @@
 {
-  "version": "1.5.2",
+  "version": "1.5.3",
   "download_url": "https://github.com/ethcist1/cards-wordpress-theme/archive/refs/heads/main.zip",
-  "changelog": "Mobile logo smaller; comments form styling + hide website field; first-image fallback for posts without featured image; longer excerpts with ellipsis; popular posts sidebar offset fixed to 20",
+  "changelog": "Mobile logo truly centered via grid layout; desktop logo vertically centered in header; article excerpt bumped to 15px; sidebar gradient darker and more abrupt; sidebar sticky on desktop",
   "requires": "5.0",
   "tested": "6.7",
   "requires_php": "7.4"

@@ -1,7 +1,7 @@
 /*
 Theme Name: Sparks Theme
 Description: A custom theme for Sparks of a Nation
-Version: 1.5.2
+Version: 1.5.3
 Author: Shalom Tzvi Shore
 Theme URI: https://github.com/ethcist1/cards-wordpress-theme
 GitHub Theme URI: https://github.com/ethcist1/cards-wordpress-theme
@@ -43,7 +43,8 @@ header {
 .header-logo {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .header-menu {
@@ -108,6 +109,9 @@ aside#secondary {
   flex: 0 0 400px;
   max-width: 400px;
   margin: 0;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
 }
 
 /* Sidebar zones */
@@ -159,7 +163,7 @@ aside#secondary {
   left: 0;
   right: 0;
   padding: 24px 8px 8px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.78) 0%, transparent 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.88) 45%, transparent 75%);
   color: #fff;
   font-size: 20px;
   font-weight: 600;
@@ -230,7 +234,7 @@ aside#secondary {
 }
 
 .post-excerpt {
-  font-size: 12px;
+  font-size: 15px;
   color: #555;
   line-height: 1.5;
   margin: 6px 0 0;
@@ -536,19 +540,30 @@ header.header-transparent {
   }
 
   .header-inner {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 24px 1fr 24px;
     align-items: center;
     position: relative;
     padding: 0 16px;
+    min-height: 60px;
   }
 
-  /* Keep logo centered on mobile */
+  /* Logo in center column — truly centered regardless of hamburger */
   .header-logo {
+    grid-column: 2;
+    grid-row: 1;
     position: static;
     transform: none;
-    flex: 1;
     display: flex;
     justify-content: center;
+    align-items: center;
+  }
+
+  .hamburger {
+    grid-column: 3;
+    grid-row: 1;
+    margin-left: 0;
+    justify-self: end;
   }
 
   .custom-logo {
@@ -557,10 +572,11 @@ header.header-transparent {
 
   /* Nav collapsed by default */
   #primary-nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
     display: none;
     width: 100%;
     background: #1b2944;
-    order: 3;
   }
 
   #primary-nav.nav-open {
