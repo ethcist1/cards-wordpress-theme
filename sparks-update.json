@@ -1,7 +1,7 @@
 {
-  "version": "1.5.1",
+  "version": "1.5.2",
   "download_url": "https://github.com/ethcist1/cards-wordpress-theme/archive/refs/heads/main.zip",
-  "changelog": "Mobile hamburger menu: collapsible nav with animated X toggle and click-outside close",
+  "changelog": "Mobile logo smaller; comments form styling + hide website field; first-image fallback for posts without featured image; longer excerpts with ellipsis; popular posts sidebar offset fixed to 20",
   "requires": "5.0",
   "tested": "6.7",
   "requires_php": "7.4"

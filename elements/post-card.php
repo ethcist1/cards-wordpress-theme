@@ -4,7 +4,7 @@
         <div class="post-text">
             <div class="post-date"><?php echo get_the_date(); ?></div>
             <h2 class="entry-title"><a href="<?php echo esc_url(get_permalink()); ?>"><?php the_title(); ?></a></h2>
-            <p class="post-excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 15, '' ) ); ?> <a class="read-more-link" href="<?php echo esc_url( get_permalink() ); ?>"><?php esc_html_e( 'Read more', 'sparks-theme' ); ?></a></p>
+            <p class="post-excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 20, '...' ) ); ?> <a class="read-more-link" href="<?php echo esc_url( get_permalink() ); ?>"><?php esc_html_e( 'Read more', 'sparks-theme' ); ?></a></p>
             <?php echo sparks_get_whatsapp_share_button($post_id); ?>
         </div>
 

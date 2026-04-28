@@ -22,12 +22,20 @@ get_header(); ?>
 
                 <?php
                 // Show the featured image only if there's no video
-                if (!$has_video && has_post_thumbnail()) {
-                    echo get_the_post_thumbnail(null, 'sparks-single-featured', array(
-                        'class' => 'full-width-featured-image',
-                        'loading' => 'eager',
-                        'sizes' => '100vw',
-                    ));
+                if ( ! $has_video ) {
+                    if ( has_post_thumbnail() ) {
+                        echo get_the_post_thumbnail( null, 'sparks-single-featured', array(
+                            'class' => 'full-width-featured-image',
+                            'loading' => 'eager',
+                            'sizes' => '100vw',
+                        ) );
+                    } else {
+                        // Fallback: use first image found in post content
+                        $post_content = get_the_content();
+                        if ( preg_match( '/<img[^>]+src=["\']([^"\']+)["\'][^>]*>/i', $post_content, $img_match ) ) {
+                            echo '<img src="' . esc_url( $img_match[1] ) . '" class="full-width-featured-image" loading="eager" style="width:100%;height:auto;">';
+                        }
+                    }
                 }
                 ?>
 
