@@ -1,7 +1,7 @@
 /*
 Theme Name: Sparks Theme
 Description: A custom theme for Sparks of a Nation
-Version: 1.5.3
+Version: 1.5.4
 Author: Shalom Tzvi Shore
 Theme URI: https://github.com/ethcist1/cards-wordpress-theme
 GitHub Theme URI: https://github.com/ethcist1/cards-wordpress-theme
@@ -110,8 +110,8 @@ aside#secondary {
   max-width: 400px;
   margin: 0;
   position: sticky;
-  top: 20px;
-  align-self: flex-start;
+  bottom: 20px;
+  align-self: flex-end;
 }
 
 /* Sidebar zones */

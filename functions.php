@@ -140,6 +140,72 @@ function sparks_add_font_preconnect() {
 }
 add_action('wp_head', 'sparks_add_font_preconnect', 1);
 
+function sparks_open_graph_meta() {
+    // Only run on singular posts/pages and the front page.
+    if ( ! is_singular() && ! is_front_page() ) {
+        return;
+    }
+
+    $site_name  = get_bloginfo( 'name' );
+    $site_url   = home_url( '/' );
+
+    if ( is_singular() ) {
+        $post       = get_queried_object();
+        $title      = get_the_title( $post );
+        $url        = get_permalink( $post );
+        $type       = is_single() ? 'article' : 'website';
+        $description = has_excerpt( $post )
+            ? wp_strip_all_tags( get_the_excerpt( $post ) )
+            : wp_trim_words( wp_strip_all_tags( get_the_content( null, false, $post ) ), 30 );
+
+        // Image: featured image first, then first <img> in content.
+        $image = '';
+        if ( has_post_thumbnail( $post ) ) {
+            $thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post ), 'large' );
+            if ( $thumb ) {
+                $image = $thumb[0];
+            }
+        }
+        if ( ! $image ) {
+            preg_match( '/<img[^>]+src=["\']([^"\']+)["\']/', get_the_content( null, false, $post ), $matches );
+            if ( ! empty( $matches[1] ) ) {
+                $image = $matches[1];
+            }
+        }
+    } else {
+        $title       = $site_name;
+        $url         = $site_url;
+        $type        = 'website';
+        $description = get_bloginfo( 'description' );
+        $image       = '';
+        // Use custom logo or site icon as fallback for the homepage.
+        if ( has_custom_logo() ) {
+            $logo_id = get_theme_mod( 'custom_logo' );
+            $logo    = wp_get_attachment_image_src( $logo_id, 'full' );
+            if ( $logo ) {
+                $image = $logo[0];
+            }
+        } elseif ( get_site_icon_url() ) {
+            $image = get_site_icon_url( 512 );
+        }
+    }
+
+    echo "\n";
+    echo '<meta property="og:type" content="' . esc_attr( $type ) . '">' . "\n";
+    echo '<meta property="og:site_name" content="' . esc_attr( $site_name ) . '">' . "\n";
+    echo '<meta property="og:title" content="' . esc_attr( $title ) . '">' . "\n";
+    echo '<meta property="og:url" content="' . esc_url( $url ) . '">' . "\n";
+    if ( $description ) {
+        echo '<meta property="og:description" content="' . esc_attr( $description ) . '">' . "\n";
+    }
+    if ( $image ) {
+        echo '<meta property="og:image" content="' . esc_url( $image ) . '">' . "\n";
+        echo '<meta property="og:image:width" content="1200">' . "\n";
+        echo '<meta property="og:image:height" content="630">' . "\n";
+    }
+}
+add_action( 'wp_head', 'sparks_open_graph_meta', 2 );
+
 
 /**
  * Sparks Theme setup
