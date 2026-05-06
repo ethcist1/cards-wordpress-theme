@@ -508,7 +508,8 @@ function sparks_get_asset_version($file_path) {
 function sparks_autoembed_video_urls($content) {
     // Pattern to match video URLs that might be wrapped in <p> tags or standalone
     // Handles URLs on their own line with optional paragraph tags
-    $pattern = '/(<p[^>]*>)?\s*(https?:\/\/[^\s<>"]+\.(?:mp4|webm|ogg))\s*(<\/p>)?/i';
+    // Negative lookbehind (?<!=") prevents matching URLs already inside HTML attributes (e.g. src="...", href="...")
+    $pattern = '/(?<!=")(<p[^>]*>)?\s*(https?:\/\/[^\s<>"]+\.(?:mp4|webm|ogg))\s*(<\/p>)?/i';
 
     $content = preg_replace_callback($pattern, function($matches) {
         $opening_tag = isset($matches[1]) ? $matches[1] : '';

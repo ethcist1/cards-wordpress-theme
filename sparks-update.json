@@ -1,7 +1,7 @@
 {
-  "version": "1.5.4",
+  "version": "1.5.5",
   "download_url": "https://github.com/ethcist1/cards-wordpress-theme/archive/refs/heads/main.zip",
-  "changelog": "Add Open Graph meta tags (og:title, og:description, og:image, og:url, og:type) for Meta share previews; featured image used as og:image with content image fallback",
+  "changelog": "Fix video double-processing: sparks_autoembed_video_urls now skips URLs already inside HTML attributes to prevent broken src values",
   "requires": "5.0",
   "tested": "6.7",
   "requires_php": "7.4"
