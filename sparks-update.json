@@ -1,7 +1,7 @@
 {
-  "version": "1.5.5",
+  "version": "1.5.6",
   "download_url": "https://github.com/ethcist1/cards-wordpress-theme/archive/refs/heads/main.zip",
-  "changelog": "Fix video double-processing: sparks_autoembed_video_urls now skips URLs already inside HTML attributes to prevent broken src values",
+  "changelog": "Fix homepage card videos not appearing: remove mobile aspect-ratio:0 bug, add 16/9 sizing, convert shortcodes to native HTML5 video, wrap YouTube/Vimeo in responsive container, play button uses theme highlight color",
   "requires": "5.0",
   "tested": "6.7",
   "requires_php": "7.4"

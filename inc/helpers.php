@@ -116,9 +116,15 @@ function sparks_render_post_media($post_id = null, $include_whatsapp = true) {
 
     if (!empty($videos)) {
         // Render video slides
-        foreach ($videos as $video_shortcode) {
+        foreach ($videos as $video_html) {
             echo '<div class="slide video-featured-image">';
-            echo do_shortcode($video_shortcode);
+            $rendered = do_shortcode($video_html);
+            // Wrap YouTube/Vimeo iframes in a responsive container
+            if (strpos($rendered, '<iframe') !== false) {
+                echo '<div class="sparks-embed-responsive">' . $rendered . '</div>';
+            } else {
+                echo $rendered;
+            }
             echo '</div>';
         }
     } elseif (has_post_thumbnail($post_id)) {
@@ -257,7 +263,7 @@ function sparks_get_selfhosted_videos($content = null) {
 
             // Generate HTML5 video tag
             $video_html = sprintf(
-                '<video class="wp-video" controls preload="metadata"><source src="%s" type="%s">%s</video>',
+                '<video class="sparks-video-player" controls preload="metadata" playsinline><source src="%s" type="%s">%s</video>',
                 esc_url($video_url),
                 esc_attr($mime_type),
                 esc_html__('Your browser doesn\'t support HTML5 video.', 'sparks-theme')
@@ -289,16 +295,38 @@ function sparks_get_all_videos($content = null) {
     // Extract [video] shortcodes with positions
     if (preg_match_all('/\[video[^\]]*?\]/i', $content, $matches, PREG_OFFSET_CAPTURE)) {
         foreach ($matches[0] as $match) {
+            $shortcode_str = $match[0];
+            $video_url = '';
+            $mime_type = 'video/mp4';
+
+            // Extract URL from shortcode attributes (src, mp4, webm, ogv, ogg)
+            foreach (array('src', 'mp4', 'webm', 'ogv', 'ogg') as $attr) {
+                if (preg_match('/' . $attr . '=["\']([^"\']+)["\']/', $shortcode_str, $url_match)) {
+                    $video_url = $url_match[1];
+                    $ext = strtolower(pathinfo(strtok($video_url, '?'), PATHINFO_EXTENSION));
+                    $mime_map = array('mp4' => 'video/mp4', 'webm' => 'video/webm', 'ogg' => 'video/ogg', 'ogv' => 'video/ogg');
+                    $mime_type = isset($mime_map[$ext]) ? $mime_map[$ext] : 'video/mp4';
+                    break;
+                }
+            }
+
+            if ($video_url) {
+                $video_html = sprintf(
+                    '<video class="sparks-video-player" controls preload="metadata" playsinline><source src="%s" type="%s"></video>',
+                    esc_url($video_url),
+                    esc_attr($mime_type)
+                );
+                $processed_urls[] = $video_url;
+            } else {
+                // Fallback: let do_shortcode handle it
+                $video_html = $shortcode_str;
+            }
+
             $video_items[] = array(
                 'position' => $match[1],
-                'content' => $match[0],
+                'content' => $video_html,
                 'type' => 'shortcode',
             );
-
-            // Extract URL from shortcode to track for deduplication
-            if (preg_match('/src=["\']([^"\']+)["\']/', $match[0], $url_match)) {
-                $processed_urls[] = $url_match[1];
-            }
         }
     }
 
@@ -383,10 +411,9 @@ function sparks_get_all_videos($content = null) {
 
             // Generate HTML5 video tag
             $video_html = sprintf(
-                '<video class="wp-video" controls preload="metadata" style="max-width: 100%%;"><source src="%s" type="%s">%s</video>',
+                '<video class="sparks-video-player" controls preload="metadata" playsinline><source src="%s" type="%s"></video>',
                 esc_url($url),
-                esc_attr($mime_type),
-                esc_html__('Your browser doesn\'t support HTML5 video.', 'sparks-theme')
+                esc_attr($mime_type)
             );
 
             $video_items[] = array(
