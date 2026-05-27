@@ -331,6 +331,11 @@ aside#secondary {
     max-width: 100%;
   }
 
+  aside#secondary {
+    position: static;
+    align-self: auto;
+  }
+
   .entry-content {
     flex-direction: column-reverse;
   }
@@ -339,7 +344,14 @@ aside#secondary {
     margin: 10px;
   }
 
+  .popular-post-title {
+    font-size: 15px;
+    padding: 18px 7px 7px;
+  }
 
+  .popular-post-image {
+    aspect-ratio: 16 / 7;
+  }
 }
 
 /* styling individual blog posts (single.php) */
