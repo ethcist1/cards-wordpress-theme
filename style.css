@@ -1,7 +1,7 @@
 /*
 Theme Name: Sparks Theme
 Description: A custom theme for Sparks of a Nation
-Version: 1.5.6
+Version: 1.5.9
 Author: Shalom Tzvi Shore
 Theme URI: https://github.com/ethcist1/cards-wordpress-theme
 GitHub Theme URI: https://github.com/ethcist1/cards-wordpress-theme
@@ -211,6 +211,8 @@ aside#secondary {
 /* Slider/media section (videos/images) - takes 66% of layout */
 .slider {
   flex: 2;
+  align-self: flex-start;
+  min-width: 0;
 }
 
 .entry-title {
@@ -251,11 +253,11 @@ aside#secondary {
   text-decoration: underline;
 }
 
-/* Homepage/loop post images - limit to 350px */
+/* Homepage/loop post images */
 .entry-content .wp-post-image {
-  margin-bottom: 10px;
-  max-width: 350px;
-  height: 100%;
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .post-content {
@@ -265,24 +267,21 @@ aside#secondary {
 
 .video-featured-image {
   background: #141f32;
-  aspect-ratio: 16 / 9;
-  display: flex;
-  align-items: center;
+  width: 100%;
   overflow: hidden;
 }
 
 .video-featured-image video,
 .video-featured-image .sparks-video-player {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
   display: block;
+  width: 100%;
+  height: auto;
 }
 
 .video-featured-image .wp-video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  display: block;
+  width: 100% !important;
+  height: auto !important;
 }
 
 /* Responsive container for YouTube/Vimeo iframes */

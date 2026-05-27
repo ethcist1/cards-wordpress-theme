@@ -1,7 +1,7 @@
 {
-  "version": "1.5.6",
+  "version": "1.5.9",
   "download_url": "https://github.com/ethcist1/cards-wordpress-theme/archive/refs/heads/main.zip",
-  "changelog": "Fix homepage card videos not appearing: remove mobile aspect-ratio:0 bug, add 16/9 sizing, convert shortcodes to native HTML5 video, wrap YouTube/Vimeo in responsive container, play button uses theme highlight color",
+  "changelog": "Homepage cards: images and videos fill full column width at natural aspect ratio; removed hardcoded 16/9 constraint from video container",
   "requires": "5.0",
   "tested": "6.7",
   "requires_php": "7.4"
