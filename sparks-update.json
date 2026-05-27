@@ -1,7 +1,7 @@
 {
-  "version": "1.5.9",
+  "version": "1.6.0",
   "download_url": "https://github.com/ethcist1/cards-wordpress-theme/archive/refs/heads/main.zip",
-  "changelog": "Homepage cards: images and videos fill full column width at natural aspect ratio; removed hardcoded 16/9 constraint from video container",
+  "changelog": "Mobile: disable sticky sidebar so it collapses below main content; scale down popular post title font; tighten featured image aspect ratio on mobile",
   "requires": "5.0",
   "tested": "6.7",
   "requires_php": "7.4"
