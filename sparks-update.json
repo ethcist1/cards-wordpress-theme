@@ -1,7 +1,7 @@
 {
-  "version": "1.6.0",
+  "version": "1.6.1",
   "download_url": "https://github.com/ethcist1/cards-wordpress-theme/archive/refs/heads/main.zip",
-  "changelog": "Mobile: disable sticky sidebar so it collapses below main content; scale down popular post title font; tighten featured image aspect ratio on mobile",
+  "changelog": "Video extraction: use apply_filters the_content for full Gutenberg/block support; simplify iframe embed wrapping; remove position-tracking overhead",
   "requires": "5.0",
   "tested": "6.7",
   "requires_php": "7.4"

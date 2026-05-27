@@ -115,17 +115,8 @@ function sparks_render_post_media($post_id = null, $include_whatsapp = true) {
     echo '<div class="slider" id="slider-' . esc_attr($post_id) . '">';
 
     if (!empty($videos)) {
-        // Render video slides
         foreach ($videos as $video_html) {
-            echo '<div class="slide video-featured-image">';
-            $rendered = do_shortcode($video_html);
-            // Wrap YouTube/Vimeo iframes in a responsive container
-            if (strpos($rendered, '<iframe') !== false) {
-                echo '<div class="sparks-embed-responsive">' . $rendered . '</div>';
-            } else {
-                echo $rendered;
-            }
-            echo '</div>';
+            echo '<div class="slide video-featured-image">' . $video_html . '</div>';
         }
     } elseif (has_post_thumbnail($post_id)) {
         // Render featured image with responsive attributes
@@ -289,151 +280,50 @@ function sparks_get_all_videos($content = null) {
         $content = get_the_content();
     }
 
-    $video_items = array();
-    $processed_urls = array();
+    // Render blocks/shortcodes so all video formats produce plain HTML.
+    $rendered = apply_filters('the_content', $content);
 
-    // Extract [video] shortcodes with positions
-    if (preg_match_all('/\[video[^\]]*?\]/i', $content, $matches, PREG_OFFSET_CAPTURE)) {
-        foreach ($matches[0] as $match) {
-            $shortcode_str = $match[0];
-            $video_url = '';
-            $mime_type = 'video/mp4';
+    $videos = array();
+    $seen_urls = array();
 
-            // Extract URL from shortcode attributes (src, mp4, webm, ogv, ogg)
-            foreach (array('src', 'mp4', 'webm', 'ogv', 'ogg') as $attr) {
-                if (preg_match('/' . $attr . '=["\']([^"\']+)["\']/', $shortcode_str, $url_match)) {
-                    $video_url = $url_match[1];
-                    $ext = strtolower(pathinfo(strtok($video_url, '?'), PATHINFO_EXTENSION));
-                    $mime_map = array('mp4' => 'video/mp4', 'webm' => 'video/webm', 'ogg' => 'video/ogg', 'ogv' => 'video/ogg');
-                    $mime_type = isset($mime_map[$ext]) ? $mime_map[$ext] : 'video/mp4';
-                    break;
-                }
+    // Self-hosted: <video ...> tags (Gutenberg wp:video, classic player, etc.)
+    if (preg_match_all('/<video[^>]*>(.*?)<\/video>/is', $rendered, $video_matches)) {
+        foreach ($video_matches[0] as $video_tag) {
+            // Prefer <source src> inside the tag, fall back to src attribute on <video> itself.
+            $src = '';
+            if (preg_match('/<source[^>]+src=["\']([^"\']+)["\']/', $video_tag, $m)) {
+                $src = $m[1];
+            } elseif (preg_match('/<video[^>]+src=["\']([^"\']+)["\']/', $video_tag, $m)) {
+                $src = $m[1];
             }
 
-            if ($video_url) {
-                $video_html = sprintf(
-                    '<video class="sparks-video-player" controls preload="metadata" playsinline><source src="%s" type="%s"></video>',
-                    esc_url($video_url),
-                    esc_attr($mime_type)
-                );
-                $processed_urls[] = $video_url;
-            } else {
-                // Fallback: let do_shortcode handle it
-                $video_html = $shortcode_str;
-            }
-
-            $video_items[] = array(
-                'position' => $match[1],
-                'content' => $video_html,
-                'type' => 'shortcode',
-            );
-        }
-    }
-
-    // Extract YouTube URLs with positions
-    global $wp_embed;
-    if (preg_match_all('/(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/i', $content, $matches, PREG_OFFSET_CAPTURE)) {
-        foreach ($matches[0] as $match) {
-            $url = $match[0];
-            $position = $match[1];
-
-            // Skip if already processed
-            if (in_array($url, $processed_urls)) {
+            if (!$src || in_array($src, $seen_urls)) {
                 continue;
             }
 
-            // Check for duplicates within YouTube matches
-            $video_id = $matches[4][array_search($match, $matches[0])][0];
-            $is_duplicate = false;
-            foreach ($processed_urls as $processed_url) {
-                if (strpos($processed_url, $video_id) !== false) {
-                    $is_duplicate = true;
-                    break;
-                }
-            }
+            $ext      = strtolower(pathinfo(strtok($src, '?'), PATHINFO_EXTENSION));
+            $mime_map = array('mp4' => 'video/mp4', 'webm' => 'video/webm', 'ogg' => 'video/ogg', 'ogv' => 'video/ogg');
+            $mime_type = isset($mime_map[$ext]) ? $mime_map[$ext] : 'video/mp4';
 
-            if (!$is_duplicate) {
-                $embed_html = $wp_embed->run_shortcode('[embed]' . $url . '[/embed]');
-                if ($embed_html !== $url) {
-                    $video_items[] = array(
-                        'position' => $position,
-                        'content' => $embed_html,
-                        'type' => 'youtube',
-                    );
-                    $processed_urls[] = $url;
-                }
-            }
-        }
-    }
-
-    // Extract Vimeo URLs with positions
-    if (preg_match_all('/(https?:\/\/)?(www\.)?vimeo\.com\/(\d+)/i', $content, $matches, PREG_OFFSET_CAPTURE)) {
-        foreach ($matches[0] as $match) {
-            $url = $match[0];
-            $position = $match[1];
-
-            // Skip if already processed
-            if (in_array($url, $processed_urls)) {
-                continue;
-            }
-
-            $embed_html = $wp_embed->run_shortcode('[embed]' . $url . '[/embed]');
-            if ($embed_html !== $url) {
-                $video_items[] = array(
-                    'position' => $position,
-                    'content' => $embed_html,
-                    'type' => 'vimeo',
-                );
-                $processed_urls[] = $url;
-            }
-        }
-    }
-
-    // Extract self-hosted video URLs with positions
-    if (preg_match_all('/https?:\/\/[^\s<>"]+\.(?:mp4|webm|ogg)/i', $content, $matches, PREG_OFFSET_CAPTURE)) {
-        foreach ($matches[0] as $match) {
-            $url = $match[0];
-            $position = $match[1];
-
-            // Skip if already processed
-            if (in_array($url, $processed_urls)) {
-                continue;
-            }
-
-            // Determine video type from extension
-            $extension = strtolower(pathinfo($url, PATHINFO_EXTENSION));
-            $mime_types = array(
-                'mp4' => 'video/mp4',
-                'webm' => 'video/webm',
-                'ogg' => 'video/ogg',
-            );
-            $mime_type = isset($mime_types[$extension]) ? $mime_types[$extension] : 'video/mp4';
-
-            // Generate HTML5 video tag
-            $video_html = sprintf(
+            $videos[]    = sprintf(
                 '<video class="sparks-video-player" controls preload="metadata" playsinline><source src="%s" type="%s"></video>',
-                esc_url($url),
+                esc_url($src),
                 esc_attr($mime_type)
             );
-
-            $video_items[] = array(
-                'position' => $position,
-                'content' => $video_html,
-                'type' => 'selfhosted',
-            );
-            $processed_urls[] = $url;
+            $seen_urls[] = $src;
         }
     }
 
-    // Sort by position to maintain content order
-    usort($video_items, function($a, $b) {
-        return $a['position'] - $b['position'];
-    });
-
-    // Extract just the content (HTML/shortcodes) for return
-    $videos = array();
-    foreach ($video_items as $item) {
-        $videos[] = $item['content'];
+    // Embedded: <iframe> tags (YouTube, Vimeo, etc.)
+    if (preg_match_all('/<iframe[^>]+src=["\']([^"\']+)["\'][^>]*>.*?<\/iframe>/is', $rendered, $iframe_matches)) {
+        foreach ($iframe_matches[0] as $index => $iframe_tag) {
+            $src = $iframe_matches[1][$index];
+            if (in_array($src, $seen_urls)) {
+                continue;
+            }
+            $videos[]    = '<div class="sparks-embed-responsive">' . $iframe_tag . '</div>';
+            $seen_urls[] = $src;
+        }
     }
 
     return $videos;
